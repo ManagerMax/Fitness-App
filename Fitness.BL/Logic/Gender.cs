@@ -2,10 +2,13 @@
 
 namespace Fitness.BL.Logic
 {
+    [Serializable]
     /// <summary>
     /// Пол
     /// </summary>
-    public class Gender
+    public class Gender //Создаем отдельный конструктор
+                        //в котором реализуем обработку различных типов входных гендеров
+                        //вместо перечисления через string
     {
         /// <summary>
         /// Название

@@ -4,6 +4,7 @@ namespace Fitness.BL.Logic
     /// <summary>
     /// Пользователь
     /// </summary>
+    [Serializable]
     public class User
     {
         #region свойства 
