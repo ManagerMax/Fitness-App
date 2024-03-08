@@ -29,9 +29,5 @@ namespace Fitness.BL.Logic
 
             Name = name;
         }
-        public override string ToString()
-        {
-            return Name;
-        }
     }
 }
