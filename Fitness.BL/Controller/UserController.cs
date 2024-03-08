@@ -71,7 +71,8 @@ namespace Fitness.BL.Controller
             var formatter = new BinaryFormatter();
             using (var fs = new FileStream("users.dat", FileMode.OpenOrCreate))
             {
-                if (formatter.Deserialize(fs) is List<User> users)//Реализация на список пользователей => небезопасна
+
+                if (fs.Length > 0 && formatter.Deserialize(fs) is List<User> users)//Реализация на список пользователей => небезопасна
                                                                   //нужно строить через IEnumerable, так как доступ извне можем получить    
                 {
                     return users;
@@ -94,11 +95,6 @@ namespace Fitness.BL.Controller
             {
                 formatter.Serialize(fs, Users);
             }
-        }
-        /// <summary>
-        /// Получить данные пользователя
-        /// </summary>
-        /// <returns> Пользователь приложения </returns>
-        /// <exception cref="FileLoadException"></exception>        
+        }       
     }
 }
