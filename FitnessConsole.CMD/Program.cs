@@ -1,4 +1,5 @@
 ﻿using Fitness.BL.Controller;
+using Fitness.BL.Model;
 using System;
 
 namespace FitnessConsole.CMD
@@ -13,6 +14,7 @@ namespace FitnessConsole.CMD
             var name = Console.ReadLine();
 
             var userController = new UserController(name);
+            var mealsController = new MealsController(userController.currentUser);
             //userController.Save();//нам не нужен ручной save отдельным методом, потому что если пользователь ввел nameUser
             //и его нет в списке пользователей, мы создаем, устанавливаем имя и добавляем его в список
             if (userController.IsNewUser)
@@ -26,7 +28,39 @@ namespace FitnessConsole.CMD
                 userController.SetNewUserData(gender, birthDate, weight, height);
             }
             Console.WriteLine(userController.currentUser);
+
+            Console.WriteLine("Вам необходимо: ");
+            Console.WriteLine("Нажмите 'E' - чтобы записать прием пищи");
+            var key = Console.ReadKey();
+            if(key.Key == ConsoleKey.E)
+            {
+                var foods = EnterMeal();
+                mealsController.Add(foods.Food, foods.Weight);
+
+                foreach(var item in mealsController.Meals.Foods)
+                {
+                    Console.WriteLine($"\t{item.Key} - {item.Value}");
+                }
+            }
+
             Console.ReadLine();
+        }
+
+        private static (Food Food, double Weight) EnterMeal()
+        {
+            Console.WriteLine("Введите имя продукта: ");
+            var food = Console.ReadLine();
+            var calories = ParseDouble("Калорийность");
+            var proteins = ParseDouble("Белки");
+            var fats = ParseDouble("Жиры");
+            var carbohydrates = ParseDouble("Углеводы");
+                
+
+            var weight = ParseDouble("Вес порции");
+
+            var product = new Food(food, calories, proteins, fats, carbohydrates);
+
+            return (Food: product, Weight: weight);
         }
 
         private static DateTime ParseDateTime()
@@ -59,7 +93,7 @@ namespace FitnessConsole.CMD
                 }
                 else
                 {
-                    Console.WriteLine($"Некорректный ввод {name}а");
+                    Console.WriteLine($"Некорректный ввод в поле: {name}");
                 } 
             }
         }

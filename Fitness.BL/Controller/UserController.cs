@@ -1,22 +1,24 @@
 ﻿using Fitness.BL.Logic;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Runtime.Serialization.Formatters.Binary;
 
 namespace Fitness.BL.Controller
 {
     /// <summary>
     /// Контроллер пользователя
     /// </summary>
-    public class UserController
+    public class UserController : ControllerBase
     {
+        private const string User_File = "users.dat";
         /// <summary>
         /// Пользователь приложения
         /// </summary>
         public List<User> Users { get; }
 
+        /// <summary>
+        /// Текущий пользователь приложения
+        /// </summary>
         public User currentUser { get; }
 
         public bool IsNewUser { get; }
@@ -68,20 +70,7 @@ namespace Fitness.BL.Controller
         /// <returns></returns>
         private List<User> GetUsersData()
         {
-            var formatter = new BinaryFormatter();
-            using (var fs = new FileStream("users.dat", FileMode.OpenOrCreate))
-            {
-
-                if (fs.Length > 0 && formatter.Deserialize(fs) is List<User> users)//Реализация на список пользователей => небезопасна
-                                                                  //нужно строить через IEnumerable, так как доступ извне можем получить    
-                {
-                    return users;
-                }
-                else
-                {
-                    return new List<User>();//иначе возвращаем пустой список 
-                }
-            }
+            return Load<List<User>>(User_File) ?? new List<User>();
         }
 
         /// <summary>
@@ -89,12 +78,7 @@ namespace Fitness.BL.Controller
         /// </summary>
         public void Save()
         {
-            var formatter = new BinaryFormatter();
-
-            using(var fs = new FileStream("users.dat", FileMode.OpenOrCreate))
-            {
-                formatter.Serialize(fs, Users);
-            }
+            Save(User_File, Users);
         }       
     }
 }
