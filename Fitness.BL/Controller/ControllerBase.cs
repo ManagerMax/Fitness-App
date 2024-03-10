@@ -17,12 +17,13 @@ namespace Fitness.BL.Controller
 
         protected T Load<T>(string fileName)
         {
-            var formatter = new BinaryFormatter();
-            using (var fs = new FileStream(fileName, FileMode.OpenOrCreate))
+            var formatter = new BinaryFormatter(); //Вызываем инструмент форматирования
+            using (var fs = new FileStream(fileName, FileMode.OpenOrCreate)) 
             {
 
                 if (fs.Length > 0 && formatter.Deserialize(fs) is T items)//Реализация для еды => небезопасна
-                                                                          //нужно строить через IEnumerable, так как доступ извне можем получить    
+                                                                          //нужно строить T через IEnumerable, так как доступ извне есть
+                                                                          //и можно через тот же clear почистить весь list
                 {
                     return items;
                 }
