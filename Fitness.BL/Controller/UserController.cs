@@ -1,4 +1,5 @@
-﻿using Fitness.BL.Logic;
+﻿using CodeBlogFitness.BL.Controller;
+using Fitness.BL.Logic;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,7 +11,6 @@ namespace Fitness.BL.Controller
     /// </summary>
     public class UserController : ControllerBase
     {
-        private const string User_File = "users.dat";
         /// <summary>
         /// Пользователь приложения
         /// </summary>
@@ -21,7 +21,7 @@ namespace Fitness.BL.Controller
         /// </summary>
         public User currentUser { get; }
 
-        public bool IsNewUser { get; }
+        public bool IsNewUser { get; } = false;
         /// <summary>
         /// Создание нового контроллера
         /// </summary>
@@ -70,7 +70,7 @@ namespace Fitness.BL.Controller
         /// <returns></returns>
         private List<User> GetUsersData()
         {
-            return Load<List<User>>(User_File) ?? new List<User>();
+            return Load<User>() ?? new List<User>();
         }
 
         /// <summary>
@@ -78,7 +78,7 @@ namespace Fitness.BL.Controller
         /// </summary>
         public void Save()
         {
-            Save(User_File, Users);
+            Save(Users);
         }       
     }
 }

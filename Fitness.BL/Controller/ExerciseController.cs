@@ -1,4 +1,5 @@
-﻿using Fitness.BL.Logic;
+﻿using CodeBlogFitness.BL.Controller;
+using Fitness.BL.Logic;
 using Fitness.BL.Model;
 using System;
 using System.Collections.Generic;
@@ -8,8 +9,6 @@ namespace Fitness.BL.Controller
 {
     public class ExerciseController : ControllerBase //чтобы наследовать методы сериализации данных в файл и их десиарелизацию
     {
-        private const string Excercise_File = "excercise.dat";
-        private const string Activitie_File = "activitie.dat";
         public List<Exercise> Exercises;
         public List<Activity> Activities;
         private readonly User user;
@@ -24,18 +23,18 @@ namespace Fitness.BL.Controller
 
         private List<Activity> GetActivities()
         {
-            return Load<List<Activity>>(Activitie_File) ?? new List<Activity>();
+            return Load<Activity>() ?? new List<Activity>();
         }
 
         private List<Exercise> GetExercises()
         {
-            return Load<List<Exercise>>(Excercise_File) ?? new List<Exercise>();
+            return Load<Exercise>() ?? new List<Exercise>();
         }
 
         private void Save()
         {
-            Save(Excercise_File, Exercises);
-            Save(Activitie_File, Activities);
+            Save(Exercises);
+            Save(Activities);
         }
 
         public void Add (Activity activity, DateTime begin, DateTime finish)

@@ -1,4 +1,5 @@
-﻿using Fitness.BL.Logic;
+﻿using CodeBlogFitness.BL.Controller;
+using Fitness.BL.Logic;
 using Fitness.BL.Model;
 using System;
 using System.Collections.Generic;
@@ -9,9 +10,6 @@ namespace Fitness.BL.Controller
     //Для пользователя заводим прием пищи и добавляем в него различные продукты, после чего сохраняем в файл    
     public class MealsController : ControllerBase
     {
-        private const string Foods_File = "foods.dat";
-        private const string Meals_File = "meals.dat";
-
         private readonly User user;
 
         public List<Food> Foods { get; }
@@ -44,18 +42,18 @@ namespace Fitness.BL.Controller
 
         private Meals GetMeal()
         {
-            return Load<Meals>(Meals_File) ?? new Meals(user);
+            return  Load<Meals>().FirstOrDefault() ?? new Meals(user);
         }
 
         private List<Food> GetFoodList() 
         {
-            return Load<List<Food>>(Foods_File) ?? new List<Food>();
+            return Load<Food>() ?? new List<Food>();
         }
 
         private void Save()
         {
-            Save(Foods_File, Foods);
-            Save(Meals_File, Meals);    
+            Save(Foods);
+            Save(new List<Meals>() { Meals });
         }
     }
 }

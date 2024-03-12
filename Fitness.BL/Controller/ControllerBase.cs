@@ -1,37 +1,21 @@
-﻿using System.IO;
-using System.Runtime.Serialization.Formatters.Binary;
+﻿using Fitness.BL.Controller;
+using System.Collections.Generic;
 
-namespace Fitness.BL.Controller
+
+namespace CodeBlogFitness.BL.Controller
 {
     public abstract class ControllerBase
     {
-        protected void Save(string fileName, object item)
-        {
-            var formatter = new BinaryFormatter();
+        private readonly IDataSaver manager = new SerializeDataSaver();
 
-            using (var fs = new FileStream(fileName, FileMode.OpenOrCreate))
-            {
-                formatter.Serialize(fs, item);
-            }
+        protected void Save<T>(List<T> item) where T : class
+        {
+            manager.Save(item);
         }
 
-        protected T Load<T>(string fileName)
+        protected List<T> Load<T>() where T : class
         {
-            var formatter = new BinaryFormatter(); //Вызываем инструмент форматирования
-            using (var fs = new FileStream(fileName, FileMode.OpenOrCreate)) 
-            {
-
-                if (fs.Length > 0 && formatter.Deserialize(fs) is T items)//Реализация для еды => небезопасна
-                                                                          //нужно строить T через IEnumerable, так как доступ извне есть
-                                                                          //и можно через тот же clear почистить весь list
-                {
-                    return items;
-                }
-                else
-                {
-                    return default(T);//иначе возвращаем пустой список 
-                }
-            }
+            return manager.Load<T>();
         }
     }
 }

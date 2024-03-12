@@ -8,10 +8,11 @@ namespace Fitness.BL.Logic
     public class User
     {
         #region свойства 
+        public int Id { get; set; }
         /// <summary>
         /// Имя пользователя
         /// </summary>
-        public string Name { get; }
+        public string Name { get; set; }
         //не добавляем set, потому что пользователь вводит имя единожды и не может менять
         /// <summary>
         /// Пол
@@ -87,6 +88,7 @@ namespace Fitness.BL.Logic
             Height = height;
         }
 
+        public User() { }
         public User(string name)
         {
             if (string.IsNullOrWhiteSpace(name))

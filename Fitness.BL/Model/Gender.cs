@@ -13,12 +13,15 @@ namespace Fitness.BL.Logic
         /// <summary>
         /// Название
         /// </summary>
-        public string Name { get; }
+        public string Name { get; set; }
+        public int Id { get; set; }
         /// <summary>
         /// Создать новый пол
         /// </summary>
         /// <param name="name"> имя пола </param>
         /// <exception cref="ArgumentNullException"></exception>
+        /// 
+        public Gender() { }
         public Gender(string name)//вызываем конструктор
         {
             if (string.IsNullOrWhiteSpace(name))//проверяем введенное значение на пустоту или отступы типо tab или space

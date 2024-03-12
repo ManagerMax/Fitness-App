@@ -12,6 +12,9 @@ namespace Fitness.BL.Model
     public class Meals
     {
         #region Свойства
+        public int Id { get; set; }
+
+        public int userId { get; set; }
         /// <summary>
         /// Когда поел
         /// </summary>
@@ -20,13 +23,15 @@ namespace Fitness.BL.Model
         /// <summary>
         /// Список употребленных продуктов
         /// </summary>
-        public Dictionary<Food, double> Foods { get; }
+        public Dictionary<Food, double> Foods { get; set; }
         
         /// <summary>
         /// Кто из пользователей поел
         /// </summary>
-        public User User { get; }
+        public virtual User User { get; set; }
         #endregion
+
+        public Meals() { }
 
         public Meals(User user)
         {
